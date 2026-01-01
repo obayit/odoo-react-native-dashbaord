@@ -7,7 +7,7 @@ const PaperModalExample = () => {
 
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-  const containerStyle = {backgroundColor: 'white', padding: 20};
+  const containerStyle = { backgroundColor: 'white', padding: 20 };
 
   return (
     <PaperProvider>
@@ -16,7 +16,7 @@ const PaperModalExample = () => {
           <Text>Example Modal.  Click outside this area to dismiss.</Text>
         </Modal>
       </Portal>
-      <Button style={{marginTop: 30}} onPress={showModal}>
+      <Button style={{ marginTop: 30 }} onPress={showModal}>
         Show
       </Button>
     </PaperProvider>
@@ -24,4 +24,3 @@ const PaperModalExample = () => {
 };
 
 export default PaperModalExample;
-
