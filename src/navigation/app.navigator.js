@@ -17,6 +17,7 @@ import HomeScreen from '../features/HomeScreen';
 import colors from '../components/colors';
 import { StyleSheet } from 'react-native';
 import DashboardViewScreen from '../features/DashboardViewScreen';
+import DashboardsListScreen from '../features/DashboardsListScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -24,6 +25,7 @@ const Stack = createStackNavigator();
 export const ScreenNames = {
   DashboardView: 'Dashboard View',
   OurProducts: 'Our Products',
+  DashboardList: 'DashboardList',
 }
 
 const useHeaderOptions = () => {
@@ -70,19 +72,17 @@ const HomeNavigator = () => {
   const homeOptions = {
     tabBarIcon: (props) => tabBarIcon({name: 'home', ...props}),
   }
+  const dashboardListOptions = {
+    tabBarIcon: (props) => tabBarIcon({name: 'star', ...props}),
+  }
   const HomeTabs = () =>
     <Tab.Navigator screenOptions={tabBarOptions}>
-      <Tab.Screen name='Menus' component={HomeScreen} options={homeOptions}/>
-      <Tab.Screen name='My Orders' component={OrdersList} options={ordersOptions}/>
-      <Tab.Screen name={ScreenNames.OurProducts} component={Products} options={productsOptions}/>
-      <Tab.Screen name='Select Model' component={SelectModel} options={selectModelOptions}/>
+      <Tab.Screen name={ScreenNames.DashboardList} component={DashboardsListScreen} options={dashboardListOptions}/>
     </Tab.Navigator>
 
   return (
     <Stack.Navigator screenOptions={commonHeaderOptions.options}>
       <Stack.Screen name='Home Tabs' component={HomeTabs} options={{headerShown: false}}/>
-      <Stack.Screen name='Dynamic List' component={DynamicList} options={dynamicOptions}/>
-      <Stack.Screen name='Edit Product' component={EditProduct}/>
       <Stack.Screen name={ScreenNames.DashboardView} component={DashboardViewScreen}/>
     </Stack.Navigator>
   );

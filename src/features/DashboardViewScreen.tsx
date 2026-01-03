@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Text, FlatList, View, StyleSheet, ScrollView, Dimensions } from 'react-native';
+import * as Device from 'expo-device';
 
 import { FeatureContainer, ReusableStyles } from '../components';
 import { emptyList, emptyObject, injectQuery, odooApi } from '../common/store/reduxApi';
@@ -18,7 +19,7 @@ import { CustomButton } from '../components/CustomButtons';
 
 export default ({ navigation, route }) => {
   const rs = ReusableStyles
-  const recordId = 1
+  const recordId = route?.params?.recordId ?? 0
   const { useQuery } = injectQuery('obi.dashboard.screen');
   const query = useQuery({
     kwargs: {
@@ -48,14 +49,13 @@ export default ({ navigation, route }) => {
   );
 };
 
-function isDeviceTablet() {
-  return Dimensions.get("window").width > 400
+function isWideScreen() {
+  // Device.deviceType; // UNKNOWN, PHONE, TABLET, TV, DESKTOP
+  return [Device.DeviceType.DESKTOP, Device.DeviceType.TABLET, Device.DeviceType.TV].includes(Device.deviceType)
 }
 
 function ViewStrategy(props) {
-  console.log('#Dimensions.get("window").width');
-  console.log(Dimensions.get("window").width);
-  if (isDeviceTablet()) {
+  if (isWideScreen()) {
     return <StrategyForTablet {...props} />
   } else {
     return <StrategyForPhone {...props} />
@@ -74,8 +74,6 @@ const toCouples = arr =>
 function StrategyForTablet({ view_ids }) {
   const couples = view_ids?.length ? toCouples(view_ids) : []
   const chartWidth = Dimensions.get("window").width * .45
-  console.log('#couples ___________________________________');
-  console.log(couples);
   return (
     <ScrollView>
       {couples.map((item, index) => <View key={index} style={styles.tabletViewRow}>
@@ -88,8 +86,18 @@ function StrategyForTablet({ view_ids }) {
   )
 
 }
-function StrategyForPhone({ view_ids }) {
 
+function StrategyForPhone({ view_ids }) {
+  // this is not tested yet
+  const chartWidth = Dimensions.get("window").width * .95
+  return (
+    <ScrollView>
+      {view_ids?.length ? view_ids?.map((item, index) => <View key={index}>
+        <SingleDashboardView viewId={item} chartWidth={chartWidth} />
+      </View>)
+        : null}
+    </ScrollView>
+  )
 }
 
 function SingleDashboardView({ viewId, chartWidth }) {

@@ -16,7 +16,7 @@ function DebugView() {
   const configuration = useSelector(selectConfiguration)
 
   useEffect(() => {
-    navigation.navigate(ScreenNames.DashboardView)
+    // navigation.navigate(ScreenNames.DashboardView)
     // navigation.navigate(ScreenNames.OurProducts)
   }, [])
   
